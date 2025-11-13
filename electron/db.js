@@ -36,6 +36,25 @@ const db = new sqlite3.Database("app.db", (err) => {
           FOREIGN KEY (product_id) REFERENCES products (id)
         )
       `);
+      db.run(`
+        CREATE TABLE IF NOT EXISTS sales (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          sale_date TEXT NOT NULL,
+          customer TEXT,
+          total_amount REAL NOT NULL
+        )
+      `);
+      db.run(`
+        CREATE TABLE IF NOT EXISTS sale_items (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          sale_id INTEGER,
+          product_id INTEGER,
+          quantity INTEGER NOT NULL,
+          price REAL NOT NULL,
+          FOREIGN KEY (sale_id) REFERENCES sales (id),
+          FOREIGN KEY (product_id) REFERENCES products (id)
+        )
+      `);
     });
   }
 });
