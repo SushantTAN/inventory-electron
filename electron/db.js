@@ -7,6 +7,17 @@ const db = new sqlite3.Database("app.db", (err) => {
     console.error("Failed to open database:", err);
   } else {
     console.log("SQLite DB opened successfully.");
+    db.serialize(() => {
+      db.run(`
+        CREATE TABLE IF NOT EXISTS products (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          description TEXT,
+          quantity INTEGER NOT NULL,
+          price REAL NOT NULL
+        )
+      `);
+    });
   }
 });
 
