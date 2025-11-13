@@ -1,54 +1,24 @@
-import { useState, useEffect } from 'react';
-import './App.css';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
+import Products from './pages/Products';
+import Sales from './pages/Sales';
+import Purchases from './pages/Purchases';
 
 function App() {
-  const [products, setProducts] = useState([]);
-
-  const fetchProducts = () => {
-    window.api.runQuery("SELECT * FROM products").then(rows => {
-      setProducts(rows);
-    }).catch(err => {
-      console.error(err);
-    });
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   return (
-    <div>
-      <h1>Product Inventory</h1>
-      <button>Add Product</button>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.length === 0 ? (
-            <tr>
-              <td colSpan="4">No products found</td>
-            </tr>
-          ) : (
-            products.map(product => (
-              <tr key={product.id}>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
-                <td>{product.quantity}</td>
-                <td>{product.price}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/sales" element={<Sales />} />
+        <Route path="/purchases" element={<Purchases />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 }
 
 export default App;
+
 
