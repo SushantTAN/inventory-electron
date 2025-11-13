@@ -85,6 +85,7 @@ form input {
   border-radius: 5px;
   font-size: 1rem;
   margin-top: 5px;
+  background-color: white;
 }
 
 /* Modal Styles from Modal.jsx - to be removed from there */
@@ -121,6 +122,7 @@ form input {
   cursor: pointer;
   color: #888;
 }
+
 .close-button:hover {
-    color: #333;
+  color: #333;
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal';
+import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -80,8 +81,13 @@ function Products() {
 
   return (
     <div>
-      <h2>Products</h2>
-      <button onClick={() => setShowAddModal(true)}>Add Product</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <h2>Products</h2>
+        <button onClick={() => setShowAddModal(true)}>
+          <FaPlus style={{ marginRight: '5px' }} />
+          Add Product
+        </button>
+      </div>
       <Modal show={showAddModal} onClose={() => setShowAddModal(false)}>
         <form onSubmit={handleAddProduct}>
           <h3>Add New Product</h3>
@@ -101,7 +107,9 @@ function Products() {
             Price:
             <input type="number" name="price" value={newProduct.price} step="0.01" onChange={(e) => handleInputChange(e, 'add')} required />
           </label>
-          <button type="submit">Add</button>
+          <div style={{ textAlign: 'right', marginTop: '1rem' }}>
+            <button type="submit">Add</button>
+          </div>
         </form>
       </Modal>
 
@@ -125,7 +133,9 @@ function Products() {
               Price:
               <input type="number" name="price" value={editingProduct.price} step="0.01" onChange={(e) => handleInputChange(e, 'edit')} required />
             </label>
-            <button type="submit">Update</button>
+            <div style={{ textAlign: 'right', marginTop: '1rem' }}>
+              <button type="submit">Update</button>
+            </div>
           </form>
         </Modal>
       )}
@@ -143,7 +153,7 @@ function Products() {
         <tbody>
           {products.length === 0 ? (
             <tr>
-              <td colSpan="5">No products found</td>
+              <td colSpan="5" style={{ textAlign: 'center' }}>No products found</td>
             </tr>
           ) : (
             products.map(product => (
@@ -153,8 +163,8 @@ function Products() {
                 <td>{product.quantity}</td>
                 <td>{product.price}</td>
                 <td>
-                  <button onClick={() => handleEditClick(product)}>Edit</button>
-                  <button onClick={() => handleDelete(product.id)}>Delete</button>
+                  <button onClick={() => handleEditClick(product)} style={{ marginRight: '5px' }}><FaEdit /></button>
+                  <button onClick={() => handleDelete(product.id)} style={{ backgroundColor: '#dc3545' }}><FaTrash /></button>
                 </td>
               </tr>
             ))
