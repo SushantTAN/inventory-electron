@@ -17,6 +17,25 @@ const db = new sqlite3.Database("app.db", (err) => {
           price REAL NOT NULL
         )
       `);
+      db.run(`
+        CREATE TABLE IF NOT EXISTS purchases (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          purchase_date TEXT NOT NULL,
+          supplier TEXT,
+          total_amount REAL NOT NULL
+        )
+      `);
+      db.run(`
+        CREATE TABLE IF NOT EXISTS purchase_items (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          purchase_id INTEGER,
+          product_id INTEGER,
+          quantity INTEGER NOT NULL,
+          price REAL NOT NULL,
+          FOREIGN KEY (purchase_id) REFERENCES purchases (id),
+          FOREIGN KEY (product_id) REFERENCES products (id)
+        )
+      `);
     });
   }
 });
