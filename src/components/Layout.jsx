@@ -1,19 +1,20 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
+import './Layout.css';
 
 function Layout() {
   return (
-    <div style={{ display: 'flex' }}>
-      <nav style={{ width: '200px', borderRight: '1px solid #ccc', padding: '1rem' }}>
-        <h3>Menu</h3>
+    <div className="layout">
+      <nav className="sidebar">
+        <h3>Inventory</h3>
         <ul>
-          <li><Link to="/">Dashboard</Link></li>
-          <li><Link to="/products">Products</Link></li>
-          <li><Link to="/sales">Sales</Link></li>
-          <li><Link to="/purchases">Purchases</Link></li>
+          <li><NavLink to="/" end>Dashboard</NavLink></li>
+          <li><NavLink to="/products">Products</NavLink></li>
+          <li><NavLink to="/sales">Sales</NavLink></li>
+          <li><NavLink to="/purchases">Purchases</NavLink></li>
         </ul>
       </nav>
-      <main style={{ flex: 1, padding: '1rem' }}>
+      <main className="main-content">
         <Outlet />
       </main>
     </div>
@@ -21,3 +22,4 @@ function Layout() {
 }
 
 export default Layout;
+

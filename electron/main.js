@@ -1,7 +1,10 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, nativeTheme } from "electron";
 import path from "path";
 import db from "./db.js"; // ESM import for sqlite3 db.js
 import { fileURLToPath } from "url";
+
+// Disable dark mode
+nativeTheme.themeSource = 'light';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
