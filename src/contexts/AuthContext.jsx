@@ -1,10 +1,12 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
+import { ToastContext } from "./ToastContext";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { showToast } = useContext(ToastContext);
 
   useEffect(() => {
     // This is a simple in-memory session.
@@ -21,6 +23,9 @@ export const AuthProvider = ({ children }) => {
     if (result.success) {
       setUser(result.user);
       sessionStorage.setItem("user", JSON.stringify(result.user));
+      showToast("Logged in successfully!", "success");
+    } else {
+      showToast(result.message || "Login failed.", "error");
     }
     return result;
   };
@@ -28,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     sessionStorage.removeItem("user");
+    showToast("Logged out successfully!", "info");
   };
 
   const value = { user, login, logout, loading };

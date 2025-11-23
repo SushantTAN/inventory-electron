@@ -5,13 +5,16 @@ import './index.css';
 import './App.css';
 import App from './App.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
+import { ToastProvider } from './contexts/ToastContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HashRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </ToastProvider>
     </HashRouter>
   </StrictMode>,
 );

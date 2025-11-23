@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContext } from "../contexts/ToastContext";
 import "./Auth.css";
 
 function Register() {
@@ -7,20 +8,25 @@ function Register() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { showToast } = useContext(ToastContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
       const result = await window.api.register(username, password);
-      console.log("result", result);
       if (result.success) {
+        showToast("Registered successfully! Please log in.", "success");
         navigate("/login");
       } else {
-        setError("Registration failed. Username might already be taken.");
+        const message = "Registration failed. Username might already be taken.";
+        setError(message);
+        showToast(message, "error");
       }
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      const message = "An error occurred. Please try again.";
+      setError(message);
+      showToast(message, "error");
       console.error(err);
     }
   };
