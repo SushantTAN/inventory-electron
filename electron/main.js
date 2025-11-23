@@ -31,6 +31,42 @@ function createWindow() {
 app.whenReady().then(createWindow);
 
 // ----------------------
+// Auth IPC Handlers
+// ----------------------
+ipcMain.handle("auth:register", async (event, { username, password }) => {
+  return new Promise((resolve, reject) => {
+    db.run("INSERT INTO users (username, password) VALUES (?, ?)", [username, password], function (err) {
+      if (err) {
+        console.error("Registration DB Error:", err);
+        reject(err);
+      } else {
+        resolve({ success: true, userId: this.lastID });
+      }
+    });
+  });
+});
+
+ipcMain.handle("auth:login", async (event, { username, password }) => {
+  return new Promise((resolve, reject) => {
+    db.get("SELECT * FROM users WHERE username = ?", [username], async (err, user) => {
+      if (err) {
+        console.error("Login DB Error:", err);
+        return reject(err);
+      }
+      if (!user) {
+        return resolve({ success: false, message: "Invalid credentials." });
+      }
+
+      if (user.password === password) {
+        resolve({ success: true, user: { id: user.id, username: user.username } });
+      } else {
+        resolve({ success: false, message: "Invalid credentials." });
+      }
+    });
+  });
+});
+
+// ----------------------
 // SQLite IPC Handler
 // ----------------------
 ipcMain.handle("db:query", async (event, { sql, params }) => {

@@ -93,3 +93,54 @@
 table {
   width: 100%;
 }
+
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  color: #333;
+}
+
+.username {
+  font-weight: bold;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  background: none;
+  border: none;
+  color: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.logout-btn:hover {
+  background: #e6e9ec;
+}
+
+.logout-btn svg {
+  margin-right: 10px;
+  min-width: 20px;
+}
+
+.layout.collapsed .username,
+.layout.collapsed .sidebar-footer .link-text {
+  opacity: 0;
+  width: 0;
+}

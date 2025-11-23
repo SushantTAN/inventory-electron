@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { FaTachometerAlt, FaBox, FaShoppingCart, FaShoppingBag, FaBars } from 'react-icons/fa';
+import { FaTachometerAlt, FaBox, FaShoppingCart, FaShoppingBag, FaBars, FaSignOutAlt } from 'react-icons/fa';
 import './Layout.css';
+import { AuthContext } from '../contexts/AuthContext';
 
 function Layout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user, logout } = useContext(AuthContext);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -21,7 +23,7 @@ function Layout() {
         </div>
         <ul>
           <li>
-            <NavLink to="/" end>
+            <NavLink to="/dashboard" end>
               <FaTachometerAlt /> <span className="link-text">Dashboard</span>
             </NavLink>
           </li>
@@ -41,6 +43,14 @@ function Layout() {
             </NavLink>
           </li>
         </ul>
+        <div className="sidebar-footer">
+          <div className="user-info">
+            <span className="username">{user?.username}</span>
+          </div>
+          <button onClick={logout} className="logout-btn">
+            <FaSignOutAlt /> <span className="link-text">Logout</span>
+          </button>
+        </div>
       </nav>
       <main className="main-content">
         <Outlet />
