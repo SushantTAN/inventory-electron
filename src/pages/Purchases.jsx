@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal';
 import { FaPlus, FaTrash, FaEye } from 'react-icons/fa';
+import { checkNumber } from '../utils/number';
 
 function Purchases() {
   const [purchases, setPurchases] = useState([]);
@@ -36,9 +37,9 @@ function Purchases() {
     const { name, value } = e.target;
     const items = [...newPurchase.items];
     if (name === 'quantity') {
-      items[index][name] = parseInt(value, 10);
+      items[index][name] = parseInt(+value, 10);
     } else if (name === 'price') {
-      items[index][name] = parseFloat(value);
+      items[index][name] = parseFloat(+value);
     } else {
       items[index][name] = value;
     }
@@ -140,8 +141,14 @@ function Purchases() {
                   <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
               </select>
-              <input type="number" name="quantity" value={item.quantity} onChange={(e) => handleItemChange(index, e)} placeholder="Quantity" required style={{ width: '100px' }} />
-              <input type="number" name="price" value={item.price} step="0.01" onChange={(e) => handleItemChange(index, e)} placeholder="Price" required style={{ width: '100px' }} />
+              <input type="text" name="quantity" value={item.quantity} onChange={(e) => {
+                if (!checkNumber(e.target.value)) return;
+                handleItemChange(index, e)
+              }} placeholder="Quantity" required style={{ width: '100px' }} />
+              <input type="text" name="price" value={item.price} step="0.01" onChange={(e) => {
+                if (!checkNumber(e.target.value)) return;
+                handleItemChange(index, e)
+              }} placeholder="Price" required style={{ width: '100px' }} />
               <button type="button" onClick={() => removeItem(index)} style={{ backgroundColor: '#dc3545' }}><FaTrash /></button>
             </div>
           ))}

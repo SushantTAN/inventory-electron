@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { checkNumber } from '../utils/number';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -101,11 +102,17 @@ function Products() {
           </label>
           <label>
             Quantity:
-            <input type="number" name="quantity" value={newProduct.quantity} onChange={(e) => handleInputChange(e, 'add')} required />
+            <input type="text" name="quantity" value={newProduct.quantity} onChange={(e) => {
+              if (!checkNumber(e.target.value)) return;
+              handleInputChange(e, 'add')
+            }} required />
           </label>
           <label>
             Price:
-            <input type="number" name="price" value={newProduct.price} step="0.01" onChange={(e) => handleInputChange(e, 'add')} required />
+            <input type="text" name="price" value={newProduct.price} step="0.01" onChange={(e) => {
+              if (!checkNumber(e.target.value)) return;
+              handleInputChange(e, 'add')
+            }} required />
           </label>
           <div style={{ textAlign: 'right', marginTop: '1rem' }}>
             <button type="submit">Add</button>
@@ -127,11 +134,17 @@ function Products() {
             </label>
             <label>
               Quantity:
-              <input type="number" name="quantity" value={editingProduct.quantity} onChange={(e) => handleInputChange(e, 'edit')} required />
+              <input type="text" name="quantity" value={editingProduct.quantity} onChange={(e) => {
+                if (!checkNumber(e.target.value)) return;
+                handleInputChange(e, 'edit')
+              }} required />
             </label>
             <label>
               Price:
-              <input type="number" name="price" value={editingProduct.price} step="0.01" onChange={(e) => handleInputChange(e, 'edit')} required />
+              <input type="text" name="price" value={editingProduct.price} step="0.01" onChange={(e) => {
+                if (!checkNumber(e.target.value)) return;
+                handleInputChange(e, 'edit')
+              }} required />
             </label>
             <div style={{ textAlign: 'right', marginTop: '1rem' }}>
               <button type="submit">Update</button>

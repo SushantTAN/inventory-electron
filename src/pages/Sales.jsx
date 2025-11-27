@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from '../components/Modal';
 import { FaPlus, FaTrash, FaEye } from 'react-icons/fa';
+import { checkNumber } from '../utils/number';
 
 function Sales() {
   const [sales, setSales] = useState([]);
@@ -36,15 +37,15 @@ function Sales() {
     const { name, value } = e.target;
     const items = [...newSale.items];
     if (name === 'quantity') {
-        items[index][name] = parseInt(value, 10) || 0;
+      items[index][name] = parseInt(+value, 10) || 0;
     } else if (name === 'price') {
-        items[index][name] = parseFloat(value) || 0;
+      items[index][name] = parseFloat(+value) || 0;
     } else if (name === 'product_id') {
-        const product = products.find(p => p.id === parseInt(value));
-        items[index]['price'] = product ? product.price : 0;
-        items[index][name] = value;
+      const product = products.find(p => p.id === parseInt(value));
+      items[index]['price'] = product ? product.price : 0;
+      items[index][name] = value;
     } else {
-        items[index][name] = value;
+      items[index][name] = value;
     }
     setNewSale(prev => ({ ...prev, items }));
   };
@@ -150,15 +151,21 @@ function Sales() {
             const stock = product ? product.quantity : 0;
             const isInvalid = item.quantity > stock;
             return (
-              <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px', border: isInvalid ? '1px solid red' : 'none', padding: isInvalid ? '5px': 0 }}>
+              <div key={index} style={{ display: 'flex', gap: '10px', marginBottom: '10px', border: isInvalid ? '1px solid red' : 'none', padding: isInvalid ? '5px' : 0 }}>
                 <select name="product_id" value={item.product_id} onChange={(e) => handleItemChange(index, e)} required>
                   <option value="">Select Product</option>
                   {products.map(p => (
                     <option key={p.id} value={p.id}>{p.name} (Stock: {p.quantity})</option>
                   ))}
                 </select>
-                <input type="number" name="quantity" value={item.quantity} onChange={(e) => handleItemChange(index, e)} placeholder="Quantity" required style={{ width: '100px' }} />
-                <input type="number" name="price" value={item.price} step="0.01" onChange={(e) => handleItemChange(index, e)} placeholder="Price" required style={{ width: '100px' }} />
+                <input type="text" name="quantity" value={item.quantity} onChange={(e) => {
+                  if (!checkNumber(e.target.value)) return;
+                  handleItemChange(index, e)
+                }} placeholder="Quantity" required style={{ width: '100px' }} />
+                <input type="text" name="price" value={item.price} step="0.01" onChange={(e) => {
+                  if (!checkNumber(e.target.value)) return;
+                  handleItemChange(index, e)
+                }} placeholder="Price" required style={{ width: '100px' }} />
                 <button type="button" onClick={() => removeItem(index)} style={{ backgroundColor: '#dc3545' }}><FaTrash /></button>
               </div>
             )
